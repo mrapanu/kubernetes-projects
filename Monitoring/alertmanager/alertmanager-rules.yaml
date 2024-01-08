@@ -1,0 +1,44 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: general
+  namespace: monitoring
+  labels:
+    team: monitoring
+spec:
+  groups:
+  - name: general
+    rules:
+      - alert: INSTANCE_DOWN
+        annotations:
+          summary: 'Instance is down.'
+          description: 'Check all the nodes / pods from the kubernetes cluster. Seems one or more nodes / pods are down.'
+        expr: (up==0)
+        for: 1m
+        labels:
+          severity: critical
+      - alert: CPU_TEMPERATURE_HIGH
+        annotations:
+          summary: 'CPU Temperature {{ $value }} C of node.lan > 65 C'
+          description: 'CPU Temperature is High'
+        expr: (node_thermal_zone_temp{container="kube-rbac-proxy", endpoint="https", instance="node.lan", job="node-exporter", namespace="monitoring", pod="node-exporter-zsj6v", service="node-exporter", type="cpu-thermal", zone="0"}) > 65 
+        for: 1m
+        labels:
+          severity: warning
+      - alert: CPU_USAGE_HIGH
+        annotations:
+          summary: 'CPU Usage High: {{ $value }} % (used)'
+          description: 'CPU USAGE > 65%'
+        expr: avg without (mode,cpu) (1 - rate(node_cpu_seconds_total{mode="idle", instance="node.lan"}[1m])) * 100 > 65
+        for: 1m
+        labels:
+          severity: warning
+      - alert: MEMORY_USAGE_HIGH
+        annotations:
+          summary: 'RAM Usage High: {{ $value }}% (used)'
+          description: 'RAM USAGE > 65%'
+        expr: ((1 - node_memory_MemAvailable_bytes{instance="node.lan"} / node_memory_MemTotal_bytes{instance="node.lan"}) * 100) > 65
+        for: 1m
+        labels:
+          severity: warning
+

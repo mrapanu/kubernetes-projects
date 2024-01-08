@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig 
+metadata:
+  name: alertmanager-demo
+  namespace: monitoring
+  labels:
+    alertmanagerConfig: test
+spec:
+  route:
+    groupBy: ['alertname']
+    groupWait: 10s
+    groupInterval: 10s
+    repeatInterval: 2h
+    receiver: notifications 
+  receivers:
+    - name: notifications
+      webhookConfigs:
+      - url: '<webhook_url_for_notification>'
