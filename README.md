@@ -2,14 +2,14 @@
 
 This repository contains the Kubernetes configuration files for various projects. Below is the documentation for each project:
 
-1. [Dashy](#dashy)
-2. [Portainer](#portainer)
-3. [Monitoring](#Monitoring)
-3. [Prometheus](#Prometheus)
-3. [Prometheus-Operator](#Prometheus-Operator)
-3. [Node-Exporter](#Node-Exporter)
-3. [Grafana](#Grafana)
-3. [Alert Manager](#AlertManager) 
+* [Dashy](#dashy)
+* [Portainer](#portainer)
+* [Monitoring](#Monitoring)
+   * [Prometheus](#Prometheus)
+   * [Prometheus-Operator](#Prometheus-Operator)
+   * [Node-Exporter](#Node-Exporter)
+   * [Grafana](#Grafana)
+   * [Alert Manager](#AlertManager) 
 
 ## Dashy
 
