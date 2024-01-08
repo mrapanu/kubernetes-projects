@@ -5,11 +5,11 @@ This repository contains the Kubernetes configuration files for various projects
 1. [Dashy](#dashy)
 2. [Portainer](#portainer)
 3. [Monitoring](#Monitoring)
-   3.1 [Prometheus](#Prometheus)
-   3.2 [Prometheus Operator](#Prometheus Operator)
-   3.3 [Node Exporter](#Node Exporter)
-   3.3 [Grafana](#Grafana)
-   3.4 [Alert Manager](#AlertManager) 
+3. [Prometheus](#Prometheus)
+3. [Prometheus-Operator](#Prometheus-Operator)
+3. [Node-Exporter](#Node-Exporter)
+3. [Grafana](#Grafana)
+3. [Alert Manager](#AlertManager) 
 
 ## Dashy
 
@@ -179,7 +179,7 @@ You can deploy all at once as follows:
    kubectl delete -f .
    ```
 
-### Prometheus Operator
+### Prometheus-Operator
 
 The Prometheus Operator is an open-source project that simplifies the deployment and management of Prometheus and related components in a Kubernetes environment.
 
@@ -206,7 +206,7 @@ You can deploy all at once as follows:
    kubectl delete -f .
    ```
 
-### Node Exporter
+### Node-Exporter
 
 The Node Exporter is a Prometheus exporter specifically designed to collect and expose various system-level metrics from a target host machine. It serves as an agent that runs on the machine being monitored, and its primary purpose is to gather detailed information about the system's health, performance, and resource utilization. These metrics can then be scraped and stored by a Prometheus server for monitoring and analysis.
 
