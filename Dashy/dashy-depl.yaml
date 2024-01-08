@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashy
+  namespace: dashy
+spec:
+  replicas: 3
+  strategy:
+    type: "Recreate"
+  selector:
+    matchLabels:
+      app: dashy
+  template:
+    metadata:
+      labels:
+        app: dashy
+    spec:
+      volumes:
+      - name: "data"
+        persistentVolumeClaim:
+          claimName: dashy-config-volume
+      containers:
+      - name: dashy
+        image: "lissy93/dashy:latest"
+        imagePullPolicy: Always
+        args:
+        volumeMounts:
+          - name: data
+            mountPath: /app/public/
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
