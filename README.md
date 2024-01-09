@@ -234,7 +234,102 @@ You can deploy all at once as follows:
    ```
 
 ### Grafana
-TO DO
+
+[Grafana](https://grafana.com/) is an open-source analytics and monitoring platform that integrates with various data sources, allowing you to visualize and understand your metrics and logs better. It provides a flexible and interactive dashboard for monitoring, alerting, and exploring data.
+
+#### Contents
+
+1. [grafana-configmap.yaml](grafana/grafana-configmap.yaml)
+    - ConfigMap definition for Grafana settings.
+    - Path: `grafana/grafana-configmap.yaml`
+
+2. [grafana-depl.yaml](grafana/grafana-depl.yaml)
+    - Deployment definition for Grafana.
+    - Path: `grafana/grafana-depl.yaml`
+
+3. [grafana-pv.yaml](grafana/grafana-pv.yaml)
+    - Persistent Volume definition for Grafana storage.
+    - Path: `grafana/grafana-pv.yaml`
+
+4. [grafana-pvc.yaml](grafana/grafana-pvc.yaml)
+    - Persistent Volume Claim definition for Grafana storage.
+    - Path: `grafana/grafana-pvc.yaml`
+
+5. [grafana-sa.yaml](grafana/grafana-sa.yaml)
+    - Service Account definition for Grafana.
+    - Path: `grafana/grafana-sa.yaml`
+
+6. [grafana-secret.yaml](grafana/grafana-secret.yaml)
+    - Secret definition for storing sensitive information (admin username and password).
+    - Path: `grafana/grafana-secret.yaml`
+    - **IMPORTANT**: The `admin-user` and `admin-password` fields are required and should be encoded using the following commands:
+        ```
+        echo username_example -n | base64
+        echo username_passwd -n | base64
+        ```
+
+7. [grafana-svc.yaml](grafana/grafana-svc.yaml)
+    - Service definition for exposing Grafana via a LoadBalancer.
+    - Path: `grafana/grafana-svc.yaml`
+
+8. [grafana-svcmonitor.yaml](grafana/grafana-svcmonitor.yaml)
+    - ServiceMonitor definition for Prometheus monitoring integration.
+    - Path: `grafana/grafana-svcmonitor.yaml`
+
+#### Deploy
+
+To deploy Grafana in your Kubernetes cluster, use the following commands:
+
+```
+kubectl apply -f grafana/grafana-configmap.yaml
+kubectl apply -f grafana/grafana-depl.yaml
+kubectl apply -f grafana/grafana-pv.yaml
+kubectl apply -f grafana/grafana-pvc.yaml
+kubectl apply -f grafana/grafana-sa.yaml
+kubectl apply -f grafana/grafana-secret.yaml
+kubectl apply -f grafana/grafana-svc.yaml
+kubectl apply -f grafana/grafana-svcmonitor.yaml
+```
+
+You can deploy all at once as follows:
+
+   ```
+   cd Monitoring/grafana
+   kubectl apply -f .
+   ```
+
+#### Cleanup
+
+To delete the Grafana project and associated resources, use the following commands:
+
+   ```
+   cd Monitoring/grafana
+   kubectl delete -f .
+   ```
+
+#### Setup Grafana in Web Console
+To set up Grafana in the web console, follow these steps:
+
+Access the Grafana web console using the provided LoadBalancer IP and port (default: 3000).
+
+Log in with the credentials configured in the grafana-secret.yaml Secret.
+
+After login, first thing to do is to configure the datasource. So go to Configuration -> Datasources, then hit "Add data source". From Time series databases select "Prometheus".
+`IMPORTANT`: You must have prometheus up and running in your kubernetes cluster. Below you have an example:
+
+![Grafana DS Configuration](https://github.com/mrapanu/kubernetes-projects/blob/main/images/grafana_datasource.png?raw=true)
+
+Note: URL is http://<prometheus pod name following by . namespace : prometheus_port>
+
+Example for monitoring all nodes. From Dashboards select Manage, then hit "Import" button. We will import an existing dashboard from
+[grafana dashboards](https://grafana.com/grafana/dashboards/). For example choose this [dashboard](https://grafana.com/grafana/dashboards/11074-node-exporter-for-prometheus-dashboard-en-v20201010/). 
+
+`IMPORTANT`: You must have node-exporter up and running in your kubernetes cluster.
+
+Copy the ID of the dashboard (this example: 11074) and hit "Load" button. Now the dashboard is available and can be accessed from Dashboards->Manage->Name of the dashboard (Example here: Node Monitor). Below you have an example:
+
+![Grafana Node Monitor Dashboard](https://grafana.com/api/dashboards/11074/images/8427/image)
+
 
 ### AlertManager
 TO DO
