@@ -1,11 +1,10 @@
----
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: alertmanager
   namespace: monitoring
   labels:
-    team: bash-forge.com
+    team: monitoring-team
 spec:
   endpoints:
   - interval: 15s

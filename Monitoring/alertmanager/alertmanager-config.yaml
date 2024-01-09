@@ -1,3 +1,5 @@
+#This configuration is tested with RocketChat
+#You must set up the channel and the webhooks from RocketChat Settings.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig 
 metadata:
@@ -15,4 +17,4 @@ spec:
   receivers:
     - name: notifications
       webhookConfigs:
-      - url: '<webhook_url_for_notification>'
+      - url: '<webhook_url_for_notification>' 
