@@ -241,27 +241,21 @@ You can deploy all at once as follows:
 
 1. [grafana-configmap.yaml](grafana/grafana-configmap.yaml)
     - ConfigMap definition for Grafana settings.
-    - Path: `grafana/grafana-configmap.yaml`
 
 2. [grafana-depl.yaml](grafana/grafana-depl.yaml)
     - Deployment definition for Grafana.
-    - Path: `grafana/grafana-depl.yaml`
 
 3. [grafana-pv.yaml](grafana/grafana-pv.yaml)
     - Persistent Volume definition for Grafana storage.
-    - Path: `grafana/grafana-pv.yaml`
 
 4. [grafana-pvc.yaml](grafana/grafana-pvc.yaml)
     - Persistent Volume Claim definition for Grafana storage.
-    - Path: `grafana/grafana-pvc.yaml`
 
 5. [grafana-sa.yaml](grafana/grafana-sa.yaml)
     - Service Account definition for Grafana.
-    - Path: `grafana/grafana-sa.yaml`
 
 6. [grafana-secret.yaml](grafana/grafana-secret.yaml)
     - Secret definition for storing sensitive information (admin username and password).
-    - Path: `grafana/grafana-secret.yaml`
     - **IMPORTANT**: The `admin-user` and `admin-password` fields are required and should be encoded using the following commands:
         ```
         echo username_example -n | base64
@@ -270,11 +264,9 @@ You can deploy all at once as follows:
 
 7. [grafana-svc.yaml](grafana/grafana-svc.yaml)
     - Service definition for exposing Grafana via a LoadBalancer.
-    - Path: `grafana/grafana-svc.yaml`
 
 8. [grafana-svcmonitor.yaml](grafana/grafana-svcmonitor.yaml)
     - ServiceMonitor definition for Prometheus monitoring integration.
-    - Path: `grafana/grafana-svcmonitor.yaml`
 
 #### Deploy
 
@@ -296,15 +288,6 @@ You can deploy all at once as follows:
    ```
    cd Monitoring/grafana
    kubectl apply -f .
-   ```
-
-#### Cleanup
-
-To delete the Grafana project and associated resources, use the following commands:
-
-   ```
-   cd Monitoring/grafana
-   kubectl delete -f .
    ```
 
 #### Setup Grafana in Web Console
@@ -330,6 +313,53 @@ Copy the ID of the dashboard (this example: 11074) and hit "Load" button. Now th
 
 ![Grafana Node Monitor Dashboard](https://grafana.com/api/dashboards/11074/images/8427/image)
 
+#### Cleanup
+
+To delete the Grafana project and associated resources, use the following commands:
+
+   ```
+   cd Monitoring/grafana
+   kubectl delete -f .
+   ```
 
 ### AlertManager
-TO DO
+
+#### Contents
+
+1. **alertmanager/alertmanager-config.yaml**
+    - **Description:** Defines the Alertmanager configuration with specific settings for integrating with RocketChat. It includes configurations for routing, grouping alerts, and specifying receivers with webhook configurations.
+
+2. **alertmanager/alertmanager-depl.yaml**
+    - **Description:** Specifies the deployment details for Alertmanager in the Kubernetes cluster. It includes version, replicas, and resource allocation for the Alertmanager instance.
+
+3. **alertmanager/alertmanager-rules.yaml**
+    - **Description:** Contains custom alerting rules for Alertmanager. These rules address potential issues in the Kubernetes cluster, such as instance downtime, high CPU temperature, high CPU usage, and high Memory usage.
+
+4. **alertmanager/alertmanager-svcmonitor.yaml**
+    - **Description:** Defines the monitoring settings for the Alertmanager service. It specifies the endpoints, namespace selection, and selector labels for monitoring the Alertmanager instance.
+
+#### Deploy
+
+To deploy AlertManager in your Kubernetes cluster, use the following commands:
+
+```
+kubectl apply -f alertmanager/alertmanager-config.yaml
+kubectl apply -f alertmanager/alertmanager-depl.yaml
+kubectl apply -f alertmanager/alertmanager-rules.yaml
+kubectl apply -f alertmanager/alertmanager-svcmonitor.yaml
+```
+
+You can deploy all at once as follows:
+
+   ```
+   cd Monitoring/alertmanager
+   kubectl apply -f .
+   ```
+#### Cleanup
+
+To delete the AlertManager project and associated resources, use the following commands:
+
+   ```
+   cd Monitoring/alertmanager
+   kubectl delete -f .
+   ```
