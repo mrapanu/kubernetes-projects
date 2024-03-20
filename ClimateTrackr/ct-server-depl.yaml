@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ct-server
+  namespace: climatetrackr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ct-server
+  template:
+    metadata:
+      labels:
+        app: ct-server
+    spec:
+      containers:
+        - name: climatetrackr-server
+          image: mrapanu/climatetrackr-server:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: TZ
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: TZ
+            - name: DB_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: DB_CONN_STRING
+            - name: RABBITMQ_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: RABBITMQ_CONN_STRING
+            - name: RABBITMQ_EXCHANGE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: RABBITMQ_EXCHANGE_NAME
+            - name: RABBITMQ_ROUTING_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: RABBITMQ_ROUTING_KEY
+            - name: JWT_SECRET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: JWT_SECRET_TOKEN
+            - name: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+            - name: PUPPETEER_EXECUTABLE_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: ct-secrets
+                  key: PUPPETEER_EXECUTABLE_PATH

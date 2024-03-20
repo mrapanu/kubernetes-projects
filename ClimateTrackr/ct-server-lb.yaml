@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ct-server-lb
+  namespace: climatetrackr
+spec:
+  selector:
+    app: ct-server
+  ports:
+    - protocol: TCP
+      port: 9081
+      targetPort: 80
+  type: LoadBalancer
